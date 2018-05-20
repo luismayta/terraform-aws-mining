@@ -1,0 +1,14 @@
+[Unit]
+Description=mining-zec-ebwf
+After=network.target
+
+[Service]
+Type=simple
+User=mining
+WorkingDirectory=/home/mining
+ExecStart=/home/mining/zec-ebwf.sh
+TimeoutSec=15
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

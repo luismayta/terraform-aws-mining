@@ -1,0 +1,54 @@
+---
+- name: Setup mining user group
+  group:
+    name: mining
+
+- name: Setup dedicated mining user
+  user:
+    name: mining
+    shell: /bin/bash
+    groups: mining
+
+- name: Add cuda to bash path
+  lineinfile:
+    path: /home/mining/.bashrc
+    line: 'export PATH=/usr/local/cuda/bin:${PATH}'
+  when: gpu_nvidia is defined and gpu_nvidia
+
+- name: Add cuda to ld library path
+  lineinfile:
+    path: /home/mining/.bashrc
+    line: 'export LD_LIBRARY_PATH=/usr/local/cuda/lib64:${LD_LIBRARY_PATH}'
+  when: gpu_nvidia is defined and gpu_nvidia
+
+- name: Setup mining group to run dmidecode (used for unique rig names)
+  template: src=sudoers_mining_dmidecode dest=/etc/sudoers.d/mining_dmidecode
+            owner=root group=root mode=0440
+
+# Minergate setup
+- import_tasks: minergate.yml
+  when: mining_minergate is defined and mining_minergate
+
+# ccminer setup
+- import_tasks: ccminer.yml
+  when: mining_ccminer is defined and mining_ccminer
+
+# ccminer alt
+- import_tasks: ccminer-alt.yml
+  when: mining_ccminer_alt is defined and mining_ccminer_alt
+
+# ccminer-cryptonight setup
+- import_tasks: ccminer-cryptonight.yml
+  when: mining_ccminer_cryptonight is defined and mining_ccminer_cryptonight
+
+# ewbf's zec miner setup
+- import_tasks: ewbf.yml
+  when: mining_ebwf is defined and mining_ebwf
+
+# claymore dual miner setup (eth+sia)
+- import_tasks: claymore-dual.yml
+  when: mining_claymore_dual is defined and mining_claymore_dual
+
+# marlin sc mining
+- import_tasks: marlin.yml
+  when: mining_marlin is defined and mining_marlin

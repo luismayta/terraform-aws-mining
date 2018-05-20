@@ -1,0 +1,14 @@
+[Unit]
+Description=mining-sc-marlin
+After=network.target
+
+[Service]
+Type=simple
+User=mining
+WorkingDirectory=/home/mining
+ExecStart=/home/mining/sc-marlin.sh
+TimeoutSec=15
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

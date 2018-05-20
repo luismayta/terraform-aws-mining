@@ -1,0 +1,14 @@
+[Unit]
+Description=mining-sc-ccminer
+After=network.target
+
+[Service]
+Type=simple
+User=mining
+WorkingDirectory=/home/mining
+ExecStart=/home/mining/sc-ccminer.sh
+TimeoutSec=15
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

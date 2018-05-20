@@ -1,0 +1,12 @@
+---
+
+common_packages:
+  - python-yaml
+  - libyaml-dev
+  - libcurl4-openssl-dev
+  - binutils
+  - libproj-dev
+  - gdal-bin
+  - zlib1g-dev
+  - libev-dev
+  - libevdev2

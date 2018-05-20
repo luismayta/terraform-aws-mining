@@ -1,0 +1,50 @@
+---
+- name: Download ewbf miner
+  get_url:
+    url: https://github.com/nanopool/ewbf-miner/releases/download/v0.3.4b/Zec.miner.0.3.4b.Linux.Bin.tar.gz
+    dest: /root/Zec.miner.0.3.4b.Linux.Bin.tar.gz
+    checksum: md5:8baefb5fbf21724512bfc02bd1bece79
+
+- name: Create ewbf destination directory
+  file: path=/home/mining/zec-miner state=directory
+        owner=mining group=mining mode=0770
+
+- name: Extract ewbf miner package
+  unarchive:
+    src: /root/Zec.miner.0.3.4b.Linux.Bin.tar.gz
+    dest: /home/mining/zec-miner
+    remote_src: yes
+
+- name: Setup zec-ebwf config
+  template: src=zec-ebwf.cfg dest=/home/mining/zec-miner/miner-ansible.cfg
+            owner=mining group=mining mode=0440
+  when: mining_zec_ebwf is defined and mining_zec_ebwf
+
+- name: Setup zec-ebwf script
+  template: src=zec-ebwf.sh dest=/home/mining/zec-ebwf.sh
+            owner=mining group=mining mode=0550
+  when: mining_zec_ebwf is defined and mining_zec_ebwf
+
+- name: Setup zec-ebwf service
+  template: src=zec-ebwf.service dest=/etc/systemd/system/zec-ebwf.service
+            owner=root group=root mode=0440
+  when: mining_zec_ebwf is defined and mining_zec_ebwf
+
+- name: Reload systemd to pickup new service
+  systemd: daemon_reload=yes
+
+- name: Enable zec-ebwf service
+  systemd: name=zec-ebwf.service enabled=yes
+  when: mining_zec_ebwf_service is defined and mining_zec_ebwf_service
+
+- name: Disable zec-ebwf service
+  systemd: name=zec-ebwf.service enabled=no
+  when: mining_zec_ebwf_service is not defined or not mining_zec_ebwf_service
+
+- name: Start zec-ebwf service
+  systemd: name=zec-ebwf.service state=started
+  when: mining_zec_ebwf_service_start is defined and mining_zec_ebwf_service_start
+
+- name: Stop zec-ebwf service
+  systemd: name=zec-ebwf.service state=stopped
+  when: mining_zec_ebwf_service_start is not defined or not mining_zec_ebwf_service_start

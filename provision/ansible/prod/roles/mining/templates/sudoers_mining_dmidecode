@@ -1,0 +1,1 @@
+%mining ALL = (ALL) NOPASSWD: /usr/sbin/dmidecode *

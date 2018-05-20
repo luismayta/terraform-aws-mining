@@ -1,0 +1,48 @@
+---
+- name: Update apt cache
+  apt: update_cache=yes cache_valid_time=3600
+
+- name: Install dependencies
+  apt:  pkg={{item}} state=present
+  with_items:
+    - linux-headers-generic
+
+- name: Download network installer
+  get_url:
+    url: http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/{{ cuda_driver_pkg }}
+    dest: /root/{{ cuda_driver_pkg }}
+    checksum: md5:4b8004dd747dbb664e85b17dec3fee51
+
+- name: Install apt cuda repo (deb)
+  apt:
+    deb: /root/{{ cuda_driver_pkg }}
+
+- name: Add apt key(s)
+  apt_key: url="https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub"
+
+- name: Install cuda-drivers package (this will take a long time)
+  apt: name="{{ item }}" state=present update_cache=yes
+  with_items:
+    - cuda-drivers
+
+- name: Install full cuda stack (this will take an exceptionally long time)
+  apt: name="{{ item }}" state=present
+  when: cuda_full_stack is defined and cuda_full_stack
+  with_items:
+    - cuda
+
+- name: Setup cuda symlink to cuda 9.0 path
+  file: src=/usr/local/cuda-9.0 dest=/usr/local/cuda
+        state=link force=yes
+
+- name: Add cuda to bash path (root)
+  lineinfile:
+    path: /root/.bashrc
+    line: 'export PATH=/usr/local/cuda/bin:${PATH}'
+  when: gpu_nvidia is defined and gpu_nvidia
+
+- name: Add cuda to ld library path (root)
+  lineinfile:
+    path: /root/.bashrc
+    line: 'export LD_LIBRARY_PATH=/usr/local/cuda/lib64:${LD_LIBRARY_PATH}'
+  when: gpu_nvidia is defined and gpu_nvidia

@@ -1,0 +1,45 @@
+---
+- name: Download marlin miner
+  get_url:
+    url: https://github.com/SiaMining/marlin/releases/download/v1.0.0/marlin-1.0.0-linux-amd64.tar.gz
+    dest: /root/marlin-1.0.0-linux-amd64.tar.gz
+    checksum: md5:4d190834d36092c70df69943b7133fb1
+
+- name: Create marlin destination directory
+  file: path=/home/mining/marlin state=directory
+        owner=mining group=mining mode=0770
+
+- name: Extract marlin miner package
+  unarchive:
+    src: /root//marlin-1.0.0-linux-amd64.tar.gz
+    dest: /home/mining/marlin
+    remote_src: yes
+
+- name: Setup marlin script
+  template: src=sc-marlin.sh dest=/home/mining/sc-marlin.sh
+            owner=mining group=mining mode=0550
+  when: mining_sc_marlin is defined and mining_sc_marlin
+
+- name: Setup marlin service
+  template: src=sc-marlin.service dest=/etc/systemd/system/sc-marlin.service
+            owner=root group=root mode=0440
+  when: mining_sc_marlin is defined and mining_sc_marlin
+
+- name: Reload systemd to pickup new service
+  systemd: daemon_reload=yes
+
+- name: Enable sc-marlin service
+  systemd: name=sc-marlin.service enabled=yes
+  when: mining_sc_marlin_service is defined and mining_sc_marlin_service
+
+- name: Disable sc-marlin service
+  systemd: name=sc-marlin.service enabled=no
+  when: mining_sc_marlin_service is not defined or not mining_sc_marlin_service
+
+- name: Start sc-marlin service
+  systemd: name=sc-marlin.service state=started
+  when: mining_sc_marlin_service_start is defined and mining_sc_marlin_service_start
+
+- name: Stop sc-marlin service
+  systemd: name=sc-marlin.service state=stopped
+  when: mining_sc_marlin_service_start is not defined or not mining_sc_marlin_service_start
