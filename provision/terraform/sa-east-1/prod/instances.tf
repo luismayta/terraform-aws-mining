@@ -4,7 +4,7 @@
 
 resource "aws_instance" "system" {
   ami           = "${lookup(var.amis, var.aws_region)}"
-  instance_type = "t2.micro"
+  instance_type = "${var.aws_instance_type}"
   key_name      = "${aws_key_pair.auth.key_name}"
   security_groups = [
     "${aws_security_group.main.name}",
