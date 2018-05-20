@@ -39,6 +39,7 @@ help:
 	@echo '    clean                     remove files of build'
 	@echo '    setup                     install requirements'
 	@echo ''
+	@make ansible.help
 	@make docker.help
 	@make test.help
 	@make terraform.help
