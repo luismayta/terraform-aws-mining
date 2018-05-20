@@ -1,0 +1,6 @@
+0.web.com ansible_host=18.228.7.82 ansible_port=22 ansible_private=172.31.3.120
+
+# Groups
+[webservers]
+0.web.com
+

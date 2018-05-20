@@ -1,0 +1,61 @@
+---
+# Mining apps
+mining_minergate: True
+mining_ccminer: False
+mining_ccminer_alt: False
+mining_ccminer_cryptonight: False
+mining_ebwf: True
+mining_claymore_dual: True
+mining_marlin: True
+
+# Mining scripts / configs
+mining_bcn_xmr_minergate: True
+mining_eth_sia_claymore: True
+mining_lbry_ccminer_alt: True
+mining_music_sc_claymore: True
+mining_sc_ccminer: True
+mining_sc_marlin: True
+mining_xmr_xdn_ccminer_cryptonight: True
+mining_zec_ebwf: True
+
+# Mining services
+mining_bcn_xmr_minergate_service: False
+mining_eth_sia_claymore_service: False
+mining_lbry_ccminer_alt_service: False
+mining_music_sc_claymore_service: False
+mining_sc_ccminer_service: False
+mining_sc_marlin_service: False
+mining_xmr_xdn_ccminer_cryptonight_service: False
+mining_zec_ebwf_service: False
+
+# Autostart services
+mining_bcn_xmr_minergate_service_start: False
+mining_eth_sia_claymore_service_start: False
+mining_lbry_ccminer_alt_service_start: False
+mining_music_sc_claymore_service_start: False
+mining_sc_ccminer_service_start: False
+mining_sc_marlin_service_start: False
+mining_xmr_xdn_ccminer_cryptonight_service_start: False
+mining_zec_ebwf_service_start: False
+
+# Hardware Utilization
+mining_free_cpu_cores: "{{ ansible_processor_count }}"
+mining_device_name: "{{ ansible_hostname }}"
+mining_bcn_cores: 1
+mining_sia_intensity: 28
+
+# Mining devices
+mining_devices_xmr_xdn: "0"
+mining_devices_sc: "0"
+mining_devices_zec: "0"
+mining_devices_eth: "0"
+mining_devices_music: "0"
+mining_devices_lbry: "0"
+
+# Mining addresses
+mining_address_email: "slovacus@gmail.com"
+mining_address_eth: "0x2b7Cc08C4E454fE8DB88a9FCA2cCBe27Ee8879b2"
+mining_address_zec: "t1fBdJnxKuLxAnvTNBGKu4ALpBdmuTXUqyo"
+mining_address_sc: "6f16e6658df2adcaea2b5534f851594dac9b3f3b8f3b8c41bd799d69375f8cd0f1d6dde1d8ba"
+mining_address_music: "0x4ac0c6de8a112574da6915cd71b8f409ecefb5b8"
+mining_address_lbry: "bQkERNa2XJgntNTQerK2bt6ppUYKfgWCYJ"

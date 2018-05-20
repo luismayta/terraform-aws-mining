@@ -1,0 +1,58 @@
+---
+- name: Create directory for ccminer-alt
+  file: path=/home/mining/ccminer-alt state=directory
+        owner=mining group=mining mode=0770
+
+- name: Checkout ccminer-alt sources
+  git:
+    repo: 'https://github.com/tpruvot/ccminer'
+    dest: /home/mining/ccminer-alt
+    version: cuda-9
+
+- name: Install ccminer-alt build dependencies
+  apt: name="{{ item }}" state=present update_cache=yes cache_valid_time=3600
+  with_items:
+    - autoconf
+    - autotools-dev
+    - libcurl4-openssl-dev
+    - libssl-dev
+    - libjansson-dev
+    - automake
+    - build-essential
+
+- name: Build ccminer-alt sources (this make take awhile)
+  command: "{{ item }}"
+  args:
+    chdir: /home/mining/ccminer-alt/
+    creates: /home/mining/ccminer-alt/ccminer
+  with_items:
+  - ./build.sh
+
+- name: Setup lbry-ccminer-alt script
+  template: src=lbry-ccminer-alt.sh dest=/home/mining/lbry-ccminer-alt.sh
+            owner=mining group=mining mode=0550
+  when: mining_lbry_ccminer_alt is defined and mining_lbry_ccminer_alt
+
+- name: Setup lbry-ccminer-alt service
+  template: src=lbry-ccminer-alt.service dest=/etc/systemd/system/lbry-ccminer-alt.service
+            owner=root group=root mode=0440
+  when: mining_lbry_ccminer_alt is defined and mining_lbry_ccminer_alt
+
+- name: Reload systemd to pickup new service
+  systemd: daemon_reload=yes
+
+- name: Enable lbry-ccminer-alt service
+  systemd: name=lbry-ccminer-alt.service enabled=yes
+  when: mining_lbry_ccminer_alt_service is defined and mining_lbry_ccminer_alt_service
+
+- name: Disable lbry-ccminer-alt service
+  systemd: name=lbry-ccminer-alt.service enabled=no
+  when: mining_lbry_ccminer_alt_service is not defined or not mining_lbry_ccminer_alt_service
+
+- name: Start lbry-ccminer-alt service
+  systemd: name=lbry-ccminer-alt.service state=started
+  when: mining_lbry_ccminer_alt_service_start is defined and mining_lbry_ccminer_alt_service_start
+
+- name: Stop lbry-ccminer-alt service
+  systemd: name=lbry-ccminer-alt.service state=stopped
+  when: mining_lbry_ccminer_alt_service_start is not defined or not mining_lbry_ccminer_alt_service_start

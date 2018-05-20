@@ -1,0 +1,14 @@
+[Unit]
+Description=mining-music-sc-claymore
+After=network.target
+
+[Service]
+Type=simple
+User=mining
+WorkingDirectory=/home/mining
+ExecStart=/home/mining/music-sc-claymore.sh
+TimeoutSec=15
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

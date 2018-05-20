@@ -1,0 +1,39 @@
+---
+- name: Install minergate
+  get_url:
+    url: https://minergate.com/download/deb-cli
+    dest: /root/minergate-cli.deb
+    # checksum: md5:9e7cc91ef8cf6289c9c1d3e2efce8b3d
+
+- name: Install minergate
+  apt:
+    deb: /root/minergate-cli.deb
+
+- name: Setup bcn-xmr-minergate script
+  template: src=bcn-xmr-minergate.sh dest=/home/mining/bcn-xmr-minergate.sh
+            owner=mining group=mining mode=0550
+  when: mining_bcn_xmr_minergate is defined and mining_bcn_xmr_minergate
+
+- name: Setup bcn-xmr-minergate service
+  template: src=bcn-xmr-minergate.service dest=/etc/systemd/system/bcn-xmr-minergate.service
+            owner=root group=root mode=0440
+  when: mining_bcn_xmr_minergate is defined and mining_bcn_xmr_minergate
+
+- name: Reload systemd to pickup new service
+  systemd: daemon_reload=yes
+
+- name: Enable bcn-xmr-minergate service
+  systemd: name=bcn-xmr-minergate.service enabled=yes
+  when: mining_bcn_xmr_minergate_service is defined and mining_bcn_xmr_minergate_service
+
+- name: Disable bcn-xmr-minergate service
+  systemd: name=bcn-xmr-minergate.service enabled=no
+  when: mining_bcn_xmr_minergate_service is not defined or not mining_bcn_xmr_minergate_service
+
+- name: Start bcn-xmr-minergate service
+  systemd: name=bcn-xmr-minergate.service state=started
+  when: mining_bcn_xmr_minergate_service_start is defined and mining_bcn_xmr_minergate_service_start
+
+- name: Stop bcn-xmr-minergate service
+  systemd: name=bcn-xmr-minergate.service state=stopped
+  when: mining_bcn_xmr_minergate_service_start is not defined or not mining_bcn_xmr_minergate_service_start

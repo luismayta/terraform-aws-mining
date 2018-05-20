@@ -1,0 +1,14 @@
+[Unit]
+Description=mining-bcn-xmr-minergate
+After=network.target
+
+[Service]
+Type=simple
+User=mining
+WorkingDirectory=/home/mining
+ExecStart=/home/mining/bcn-xmr-minergate.sh
+TimeoutSec=15
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,57 @@
+---
+- name: Create directory for ccminer
+  file: path=/home/mining/ccminer state=directory
+        owner=mining group=mining mode=0770
+
+- name: Checkout ccminer sources
+  git:
+    repo: 'https://github.com/KlausT/ccminer'
+    dest: /home/mining/ccminer
+
+- name: Install ccminer build dependencies
+  apt: name="{{ item }}" state=present update_cache=yes cache_valid_time=3600
+  with_items:
+    - autoconf
+    - autotools-dev
+    - libcurl4-openssl-dev
+    - libssl-dev
+    - libjansson-dev
+    - automake
+    - build-essential
+
+- name: Build ccminer sources (this make take awhile)
+  command: "{{ item }}"
+  args:
+    chdir: /home/mining/ccminer/
+    creates: /home/mining/ccminer/ccminer
+  with_items:
+  - ./build.sh
+
+- name: Setup sc-ccminer script
+  template: src=sc-ccminer.sh dest=/home/mining/sc-ccminer.sh
+            owner=mining group=mining mode=0550
+  when: mining_sc_ccminer is defined and mining_sc_ccminer
+
+- name: Setup sc-ccminer service
+  template: src=sc-ccminer.service dest=/etc/systemd/system/sc-ccminer.service
+            owner=root group=root mode=0440
+  when: mining_sc_ccminer is defined and mining_sc_ccminer
+
+- name: Reload systemd to pickup new service
+  systemd: daemon_reload=yes
+
+- name: Enable sc-ccminer service
+  systemd: name=sc-ccminer.service enabled=yes
+  when: mining_sc_ccminer_service is defined and mining_sc_ccminer_service
+
+- name: Disable sc-ccminer service
+  systemd: name=sc-ccminer.service enabled=no
+  when: mining_sc_ccminer_service is not defined or not mining_sc_ccminer_service
+
+- name: Start sc-ccminer service
+  systemd: name=sc-ccminer.service state=started
+  when: mining_sc_ccminer_service_start is defined and mining_sc_ccminer_service_start
+
+- name: Stop sc-ccminer service
+  systemd: name=sc-ccminer.service state=stopped
+  when: mining_sc_ccminer_service_start is not defined or not mining_sc_ccminer_service_start

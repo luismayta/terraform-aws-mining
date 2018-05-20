@@ -1,0 +1,14 @@
+[Unit]
+Description=xmr-xdn-ccminer-cryptonight
+After=network.target
+
+[Service]
+Type=simple
+User=mining
+WorkingDirectory=/home/mining
+ExecStart=/home/mining/xmr-xdn-ccminer-cryptonight.sh
+TimeoutSec=15
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

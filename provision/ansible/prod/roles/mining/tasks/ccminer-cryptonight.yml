@@ -1,0 +1,71 @@
+---
+- name: Create directory for ccminer-cryptonight
+  file: path=/home/mining/ccminer-cryptonight state=directory
+        owner=mining group=mining mode=0770
+
+- name: Install ccminer-cryptonight build dependencies
+  apt: name="{{ item }}" state=present update_cache=yes cache_valid_time=3600
+  with_items:
+    - autoconf
+    - autotools-dev
+    - libcurl4-openssl-dev
+    - libjansson-dev
+
+- name: Checkout ccminer-cryptonight sources
+  git:
+    repo: 'https://github.com/KlausT/ccminer-cryptonight.git'
+    dest: /home/mining/ccminer-cryptonight
+    force: yes # autogen monkey's with sources in the repo, force the checkout so subsequent runs don't fail
+
+- name: Setup ccminer sources (autogen.sh as raw commands)
+  command: "{{ item }}"
+  args:
+    chdir: /home/mining/ccminer-cryptonight/
+    creates: /home/mining/ccminer-cryptonight/Makefile
+  environment:
+    PATH: "/usr/local/cuda/bin:{{ ansible_env.PATH }}" # ensure nvcc will be found
+  with_items:
+    - aclocal
+    - autoheader
+    - automake --add-missing --gnu --copy
+    - autoconf
+
+- name: Build ccminer sources (this make take awhile)
+  command: "{{ item }}"
+  args:
+    chdir: /home/mining/ccminer-cryptonight/
+    creates: /home/mining/ccminer-cryptonight/ccminer
+  environment:
+    PATH: "/usr/local/cuda/bin:{{ ansible_env.PATH }}" # ensure nvcc will be found
+  with_items:
+  - ./configure
+  - make -j{{ ansible_processor_cores }}
+
+- name: Setup xmr-xdn-ccminer-cryptonight script
+  template: src=xmr-xdn-ccminer-cryptonight.sh dest=/home/mining/xmr-xdn-ccminer-cryptonight.sh
+            owner=mining group=mining mode=0550
+  when: mining_xmr_xdn_ccminer_cryptonight is defined and mining_xmr_xdn_ccminer_cryptonight
+
+- name: Setup xmr-xdn-ccminer-cryptonight service
+  template: src=xmr-xdn-ccminer-cryptonight.service dest=/etc/systemd/system/xmr-xdn-ccminer-cryptonight.service
+            owner=root group=root mode=0440
+  when: mining_xmr_xdn_ccminer_cryptonight is defined and mining_xmr_xdn_ccminer_cryptonight
+
+- name: Reload systemd to pickup new service
+  systemd: daemon_reload=yes
+
+- name: Enable xmr-xdn-ccminer-cryptonight  service
+  systemd: name=xmr-xdn-ccminer-cryptonight.service enabled=yes
+  when: mining_xmr_xdn_ccminer_cryptonight_service is defined and mining_xmr_xdn_ccminer_cryptonight_service
+
+- name: Disable xmr-xdn-ccminer-cryptonight  service
+  systemd: name=xmr-xdn-ccminer-cryptonight.service enabled=no
+  when: mining_xmr_xdn_ccminer_cryptonight_service is not defined or not mining_xmr_xdn_ccminer_cryptonight_service
+
+- name: Start xmr-xdn-ccminer-cryptonight  service
+  systemd: name=xmr-xdn-ccminer-cryptonight.service state=started
+  when: mining_xmr_xdn_ccminer_cryptonight_service_start is defined and mining_xmr_xdn_ccminer_cryptonight_service_start
+
+- name: Stop xmr-xdn-ccminer-cryptonight  service
+  systemd: name=xmr-xdn-ccminer-cryptonight.service state=stopped
+  when: mining_xmr_xdn_ccminer_cryptonight_service_start is not defined or not mining_xmr_xdn_ccminer_cryptonight_service_start
