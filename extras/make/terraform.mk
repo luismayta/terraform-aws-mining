@@ -18,18 +18,18 @@ terraform.help:
 	@echo ''
 
 terraform.encrypt: clean
-	@ansible-vault encrypt "${TERRAFORM_DIR}/us-east-1/${stage}/variables.tf" \
+	@ansible-vault encrypt "${TERRAFORM_DIR}/sa-east-1/${stage}/variables.tf" \
 		--vault-password-file "${HOME}/${PROJECT}.txt" && echo $(MESSAGE_HAPPY)
 
 terraform.decrypt: clean
-	@ansible-vault decrypt "${TERRAFORM_DIR}/us-east-1/${stage}/variables.tf" \
+	@ansible-vault decrypt "${TERRAFORM_DIR}/sa-east-1/${stage}/variables.tf" \
 		--vault-password-file "${HOME}/${PROJECT}.txt" && echo $(MESSAGE_HAPPY)
 
 terraform.plan: clean
-	@cd "${TERRAFORM_DIR}/us-east-1/${stage}/" && $(terraform) plan
+	@cd "${TERRAFORM_DIR}/sa-east-1/${stage}/" && $(terraform) plan
 
 terraform.apply: clean terraform.plan
-	@cd "${TERRAFORM_DIR}/us-east-1/${stage}/" && $(terraform) apply
+	@cd "${TERRAFORM_DIR}/sa-east-1/${stage}/" && $(terraform) apply
 
 terraform.destroy: clean terraform.plan
-	@cd "${TERRAFORM_DIR}/us-east-1/${stage}/" && $(terraform) destroy
+	@cd "${TERRAFORM_DIR}/sa-east-1/${stage}/" && $(terraform) destroy
