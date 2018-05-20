@@ -19,30 +19,30 @@ terragrunt.help:
 	@echo ''
 
 terragrunt: clean
-	@cd "${TERRAFORM_DIR}/us-east-1/" && $(terragrunt) apply-all --terragrunt-source-update
+	@cd "${TERRAFORM_DIR}/sa-east-1/" && $(terragrunt) apply-all --terragrunt-source-update
 
 terragrunt.encrypt: clean
-	@ansible-vault encrypt "${TERRAFORM_DIR}/us-east-1/${stage}/variables.tf" \
+	@ansible-vault encrypt "${TERRAFORM_DIR}/sa-east-1/${stage}/variables.tf" \
 		--vault-password-file "${HOME}/${PROJECT}.txt" && echo $(MESSAGE_HAPPY)
 
 terragrunt.decrypt: clean
-	@ansible-vault decrypt "${TERRAFORM_DIR}/us-east-1/${stage}/variables.tf" \
+	@ansible-vault decrypt "${TERRAFORM_DIR}/sa-east-1/${stage}/variables.tf" \
 		--vault-password-file "${HOME}/${PROJECT}.txt" && echo $(MESSAGE_HAPPY)
 
 terragrunt.init: clean
-	@cd "${TERRAFORM_DIR}/us-east-1/${stage}/" && $(terragrunt) init --terragrunt-source-update
+	@cd "${TERRAFORM_DIR}/sa-east-1/${stage}/" && $(terragrunt) init --terragrunt-source-update
 
 terragrunt.plan: clean
-	@cd "${TERRAFORM_DIR}/us-east-1/${stage}/" && $(terragrunt) plan --terragrunt-source-update
+	@cd "${TERRAFORM_DIR}/sa-east-1/${stage}/" && $(terragrunt) plan --terragrunt-source-update
 
 terragrunt.apply: clean
-	@cd "${TERRAFORM_DIR}/us-east-1/${stage}/" && $(terragrunt) apply --terragrunt-source-update
+	@cd "${TERRAFORM_DIR}/sa-east-1/${stage}/" && $(terragrunt) apply --terragrunt-source-update
 
 terragrunt.destroy: clean
-	@cd "${TERRAFORM_DIR}/us-east-1/${stage}/" && $(terragrunt) destroy --terragrunt-source-update
+	@cd "${TERRAFORM_DIR}/sa-east-1/${stage}/" && $(terragrunt) destroy --terragrunt-source-update
 
 terragrunt.output: clean
-	@cd "${TERRAFORM_DIR}/us-east-1/${stage}/" && $(terragrunt) output --terragrunt-source-update
+	@cd "${TERRAFORM_DIR}/sa-east-1/${stage}/" && $(terragrunt) output --terragrunt-source-update
 
 terragrunt.refresh: clean
-	@cd "${TERRAFORM_DIR}/us-east-1/${stage}/" && $(terragrunt) refresh
+	@cd "${TERRAFORM_DIR}/sa-east-1/${stage}/" && $(terragrunt) refresh

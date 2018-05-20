@@ -184,8 +184,4 @@ venv.bak/
 # Module directory
 .terraform/
 
-# .tfvars files
-*.tfvars
-
-
 # End of https://www.gitignore.io/api/go,terraform,python,node,ansible
