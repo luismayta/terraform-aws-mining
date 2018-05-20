@@ -4,7 +4,7 @@ terragrunt = {
     backend = "s3"
     config {
       encrypt        = true
-      bucket         = "mining-terraform-state"
+      bucket         = "mr-robot-terraform-state"
       key            = "${path_relative_to_include()}/terraform.tfstate"
       region         = "sa-east-1"
       dynamodb_table = "mining-sa-east-1"
