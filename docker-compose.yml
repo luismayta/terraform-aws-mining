@@ -1,0 +1,13 @@
+# Docker Compose
+# https://docs.docker.com/compose/
+# Usage: docker-compose up
+
+version: '3'
+services:
+
+  # web server.
+  web:
+    restart: always
+    image: mining-web:3.6.1
+    environment: &environment
+      - ENVIRONMENT=local

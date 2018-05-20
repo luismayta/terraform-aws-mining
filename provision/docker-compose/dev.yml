@@ -1,0 +1,17 @@
+# Docker Compose
+# https://docs.docker.com/compose/
+
+version: '3'
+services:
+
+  web:
+    ports:
+      - "8000:8000"
+    environment: &environment
+      - ENVIRONMENT=local
+    build:
+      context: .
+      dockerfile: provision/docker/web/Dockerfile
+    volumes:
+      - .:/usr/src
+    env_file:
