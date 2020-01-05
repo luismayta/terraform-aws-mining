@@ -1,66 +1,129 @@
-|Wercker| |license|
+mining
+=======
+
+|Build Status| |GitHub issues| |GitHub license|
 
 :Version: 0.0.0
-:Web: https://gitlab.com/luismayta/mining
-:Download: https://gitlab.com/luismayta/mining
-:Source: https://gitlab.com/luismayta/mining
+:Web: https://github.com/luismayta/mining
+:Download: https://github.com/luismayta/mining
+:Source: https://github.com/luismayta/mining
 :Keywords: mining
 
 .. contents:: Table of Contents:
     :local:
 
-Mining Infrastructure
-=====================
+Features
+--------
 
-Requirements
-------------
+* Task
 
-This is a list of applications that need to be installed previously to
-enjoy all the goodies of this configuration:
+Quick Start
+-----------
 
--  `Python 3.6.1`_
--  `Docker`_
--  `Docker Compose`_
+- Fork this repository
+
+Usage
+-----
+
+- Install dependences
+
+.. code-block:: bash
+
+    λ make setup
+
+Support
+-------
+
+If you want to support this project, i only accept ``IOTA`` :p.
+
+.. code-block:: bash
+
+    Address: FTDCZELEMOQGL9MBWFZENJLFIZUBGMXLFVPRB9HTWYDYPTFKASJCEGJMSAXUWDQC9SJUDMZVIQKACQEEYPEUYLAMMD
+
+
+Team
+----
+
++---------------+
+| |Luis Mayta|  |
++---------------+
+| `Luis Mayta`_ |
++---------------+
 
 License
-*******
+-------
 
-GNU
+MIT
 
 Changelog
-*********
+---------
 
 Please see `CHANGELOG`_ for more information what
 has changed recently.
 
 Contributing
-************
+------------
 
-Please see `CONTRIBUTING`_ for details.
+Contributions are welcome!
 
-Credits
-*******
+Review the `CONTRIBUTING`_ for details on how to:
 
--  `CONTRIBUTORS`_
+* Submit issues
+* Submit pull requests
 
-Made with :heart: ️:coffee:️ and :pizza: by `company`_.
+Contact Info
+------------
 
-.. |Wercker| image:: https://app.wercker.com/status/d6c8b1c4dcca13b2915d998e3f11eca5/s/
-  :target: https://app.wercker.com/project/byKey/d6c8b1c4dcca13b2915d998e3f11eca5
-  :alt: wercker status
-.. |license| image:: https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square
-  :target: LICENSE
-  :alt: License
+Feel free to contact me to discuss any issues, questions, or comments.
+
+* `Email`_
+* `Twitter`_
+* `GitHub`_
+* `LinkedIn`_
+* `Website`_
+* `PGP`_
+
+|linkedin| |beacon| |made|
+
+Made with :coffee: and :pizza: by `luis mayta`_ and `hadenlabs`_.
 
 .. Links
-.. _`CHANGELOG`: CHANGELOG.rst
-.. _`CONTRIBUTORS`: AUTHORS.rst
-.. _`CONTRIBUTING`: CONTRIBUTING.rst
+.. _`changelog`: CHANGELOG.rst
+.. _`contributors`: AUTHORS
+.. _`contributing`: docs/source/CONTRIBUTING.rst
+
+.. _`hadenlabs`: https://github.com/hadenlabs
+.. _`luis mayta`: https://github.com/luismayta
 
 
-.. _`company`: https://gitlab.com/hadenlabs
-.. dependences
-.. _`Python 3.6.1`: https://www.python.org/downloads/release/python-361
-.. _`Docker`: https://www.docker.com/
-.. _`Docker Compose`: https://docs.docker.com/compose/
+.. _`Github`: https://github.com/luismayta
+.. _`Linkedin`: https://www.linkedin.com/in/luismayta
+.. _`Email`: slovacus@gmail.com
+    :target: mailto:slovacus@gmail.com
+.. _`Twitter`: https://twitter.com/slovacus
+.. _`Website`: http://luismayta.github.io
+.. _`PGP`: https://keybase.io/luismayta/pgp_keys.asc
 
+.. |Build Status| image:: https://travis-ci.org/luismayta/mining.svg
+   :target: https://travis-ci.org/luismayta/mining
+.. |GitHub issues| image:: https://img.shields.io/github/issues/luismayta/mining.svg
+   :target: https://github.com/luismayta/mining/issues
+.. |GitHub license| image:: https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square
+   :target: LICENSE
+
+.. Team:
+.. |Luis Mayta| image:: https://github.com/luismayta.png?size=100
+   :target: https://github.com/luismayta
+
+.. Footer:
+.. |linkedin| image:: http://www.linkedin.com/img/webpromo/btn_liprofile_blue_80x15.png
+   :target: http://pe.linkedin.com/in/luismayta
+.. |beacon| image:: https://ga-beacon.appspot.com/UA-65019326-1/github.com/luismayta/mining/readme
+   :target: https://github.com/luismayta/mining
+.. |made| image:: https://img.shields.io/badge/Made%20with-Zsh-1f425f.svg
+   :target: http://www.zsh.org
+
+.. Dependences:
+
+.. _Pyenv: https://github.com/pyenv/pyenv
+.. _Docker: https://www.docker.com/
