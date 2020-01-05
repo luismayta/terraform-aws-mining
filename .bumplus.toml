@@ -3,23 +3,23 @@ version = '0.0.0'
 [[files."CHANGELOG.rst"]]
 search = """
 `Unreleased`_
-*************
++++++++++++++
 """
 
 
 replace = """
 `Unreleased`_
-*************
++++++++++++++
 
 `{{new_version}}`_ - {{utcnow | strftime('%Y-%m-%d')}}
-**********************
+++++++++++++++++++++++
 """
 
 [[files."CHANGELOG.rst"]]
 search = """
-.. _`Unreleased`: https://gitlab.com/aws-infraestructure/ivalue/compare/{{old_version}}...HEAD
+.. _`Unreleased`: https://github.com/luismayta/mining/compare/{{old_version}}...HEAD
 """
 replace = """
-.. _`Unreleased`: https://gitlab.com/aws-infraestructure/ivalue/compare/{{new_version}}...HEAD
-.. _{{new_version}}: https://gitlab.com/aws-infraestructure/ivalue/compare/{{old_version}}...{{new_version}}
+.. _`Unreleased`: https://github.com/luismayta/mining/compare/{{new_version}}...HEAD
+.. _`{{new_version}}`: https://github.com/luismayta/mining/compare/{{old_version}}...{{new_version}}
 """

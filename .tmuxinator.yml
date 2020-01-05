@@ -1,6 +1,6 @@
 # ~/.tmuxinator/mining.yml
 name: mining
-root: <%= ENV["PROJECTS"] %>/terraform/mining
+root: ./
 # Optional tmux socket
 # socket_name: foo
 
@@ -25,9 +25,7 @@ on_project_exit: make docker.down
 on_project_stop: make docker.down
 
 # Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
-pre_window:
-  - source .env
-  - pyenv activate mining
+#pre_window: pipenv shell --fancy
 
 # Pass command line options to tmux. Useful for specifying a different tmux.conf.
 # tmux_options: -f ~/.tmux.mac.conf
@@ -48,18 +46,7 @@ windows:
   - python:
       layout: main-vertical
       panes:
-        - python:
-        - python:
-  - databases:
-      layout: main-vertical
-      panes:
-        - postgresql:
-        - mysql:
-  - aws:
-      layout: main-vertical
-      panes:
-        - webserver:
-        - databases:
+        - ipython:
   - docker:
       layout: main-vertical
       panes:
