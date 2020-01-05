@@ -1,10 +1,10 @@
-FROM equipindustry/python:3.7.3-slim
+FROM equipindustry/python:3.8.0-slim
 
 MAINTAINER Luis Mayta <@slovacus>
 
 ARG stage
 
-LABEL NAME interbankriesgos-recoimage-app-$stage
+LABEL NAME mining-app-$stage
 
 ENV PACKAGES bash \
   libmagickwand-dev \

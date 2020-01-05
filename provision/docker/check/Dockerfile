@@ -4,7 +4,7 @@ MAINTAINER Luis Mayta <@slovacus>
 
 ARG stage
 ARG version
-LABEL NAME interbankriesgos-recoimage-check-$stage
+LABEL NAME mining-check-$stage
 
 COPY Pipfile* /usr/src/
 
