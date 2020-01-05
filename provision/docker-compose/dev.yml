@@ -1,17 +1,26 @@
 # Docker Compose
 # https://docs.docker.com/compose/
 
-version: '3'
+version: '3.6'
 services:
-
-  web:
-    ports:
-      - "8000:8000"
+  # Python
+  app:
     environment: &environment
-      - ENVIRONMENT=local
+      - STAGE=local
+    image: mining-app-dev
+    build:
+      args:
+        stage: dev
+
+  check:
+    image: mining-check-dev
+    environment: *environment
     build:
       context: .
-      dockerfile: provision/docker/web/Dockerfile
+      dockerfile: provision/docker/check/Dockerfile
+      args:
+        stage: dev
     volumes:
       - .:/usr/src
     env_file:
+      - .env

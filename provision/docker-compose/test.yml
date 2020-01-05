@@ -2,3 +2,13 @@
 # https://docs.docker.com/compose/
 #
 # Usage: test up
+
+version: '3.6'
+services:
+  app:
+    image: mining-app-test
+    environment: &environment
+      - STAGE=testing
+    build:
+      args:
+        stage: test
